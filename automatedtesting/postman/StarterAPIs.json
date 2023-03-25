@@ -1,23 +1,24 @@
 {
 	"info": {
-		"_postman_id": "968b3a18-cc72-48a2-9b6b-e8619b4aaca8",
+		"_postman_id": "a4d04289-b330-410b-be06-aede2e1ac55a",
 		"name": "Starter APIs",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22725523"
 	},
 	"item": [
 		{
-			"name": "Create Employee",
+			"name": "Create product",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "38b1717c-45ae-477f-8dae-8e889ba381d5",
 						"exec": [
-							"pm.test(\"Successful response\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});",
 							"var json = pm.response.json();",
-							"pm.environment.set(\"id\", json.data.id);"
+							"pm.environment.set(\"id\", json.id);"
 						],
 						"type": "text/javascript"
 					}
@@ -28,7 +29,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"{{name}}\",\n    \"salary\": \"{{salary}}\",\n    \"age\": \"{{age}}\"\n}",
+					"raw": "{\n    \"title\": \"{{title}}\",\n    \"price\": \"{{price}}\",\n    \"stock\": \"{{stock}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -36,32 +37,27 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}",
-					"protocol": "http",
+					"raw": "{{url}}/products/add",
 					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
+						"{{url}}"
 					],
 					"path": [
-						"api",
-						"v1",
-						"create"
+						"products",
+						"add"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get All Employees",
+			"name": "Get All Products",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "af3cb111-e3ac-4174-b8ca-7f4127a0285d",
 						"exec": [
 							"pm.test(\"Successful response\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"    pm.expect(pm.response.text()).to.include(\"products\");",
 							"});",
 							""
 						],
@@ -73,22 +69,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}",
-					"protocol": "http",
+					"raw": "{{url}}/products",
 					"host": [
-						"dummy",
-						"restapiexample",
-						"com"
+						"{{url}}"
 					],
 					"path": [
-						"api",
-						"v1",
-						"employees"
+						"products"
 					]
 				}
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

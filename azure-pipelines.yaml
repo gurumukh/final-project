@@ -71,7 +71,7 @@ stages:
         versionSpec: '12.x'
     - bash: |
         npm install -g newman
-        mkdir -p log/newman
+        mkdir -p log/postman_results
       displayName: Install Newman CLI
       # Postman Data Validation Test Suite    
       # Run Postman data validation test suite using Newman
@@ -79,8 +79,8 @@ stages:
       displayName: Run Data Validation Tests
       continueOnError: true
       inputs:
-        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json -r junit --reporter-junit-export $(System.DefaultWorkingDirectory)/TestResults/validation_test_results.xml' # Execute Postman regression test suite using Newman CLI and export results in JUnit format
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json -r junit --reporter-junit-export log/postman_results/regression.xml'
+        
 
     # Postman Regression Test Suite    
     # Run Postman regression test suite using Newman
@@ -88,15 +88,14 @@ stages:
       displayName: Run Regression Tests
       continueOnError: true
       inputs:
-        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json  -r junit --reporter-junit-export $(System.DefaultWorkingDirectory)/TestResults/regression_test_results.xml' # Execute Postman regression test suite using Newman CLI and export results in JUnit format
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json  -r junit --reporter-junit-export log/postman_results/validation.xml'
+        
 
     # Postman - Publish Results 
     # Publish test results to Azure Pipelines
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: '$(System.DefaultWorkingDirectory)/TestResults/validation_test_results.xml,$(System.DefaultWorkingDirectory)/TestResults/regression_test_results.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)/TestResults' # Search for test result files in TestResults directory under the default working directory
+        searchFolder: '$(System.DefaultWorkingDirectory)/log/postman_results' # Search for test result files in TestResults directory under the default working directory
         mergeTestResults: true
         testRunTitle: 'Postman Test Run' # Set the test run title to Postman Test Run

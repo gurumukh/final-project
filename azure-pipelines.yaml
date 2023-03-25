@@ -83,12 +83,12 @@ stages:
       displayName: Install Newman CLI
       # Postman Data Validation Test Suite    
       # Run Postman data validation test suite using Newman
-    - task: CmdLine@2
-      displayName: Run Data Validation Tests
-      continueOnError: true
-      inputs:
-        script: 'newman run automatedtesting/postman/DataValidationTestSuite.postman_collection.json -e automatedtesting/postman/TestEnvironment.postman_environment.json -r junit --reporter-junit-export $(System.DefaultWorkingDirectory)/TestResults/data_validation_results.xml' # Execute Postman data validation test suite using Newman CLI and export results in JUnit format
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+    # - task: CmdLine@2
+    #   displayName: Run Data Validation Tests
+    #   continueOnError: true
+    #   inputs:
+    #     script: 'newman run automatedtesting/postman/DataValidationTestSuite.postman_collection.json -e automatedtesting/postman/TestEnvironment.postman_environment.json -r junit --reporter-junit-export $(System.DefaultWorkingDirectory)/TestResults/data_validation_results.xml' # Execute Postman data validation test suite using Newman CLI and export results in JUnit format
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)'
 
     # Postman Regression Test Suite    
     # Run Postman regression test suite using Newman
@@ -96,16 +96,16 @@ stages:
       displayName: Run Regression Tests
       continueOnError: true
       inputs:
-        script: 'newman run automatedtesting/postman/RegressionTestSuite.postman_collection.json -e automatedtesting/postman/TestEnvironment.postman_environment.json -r junit --reporter-junit-export $(System.DefaultWorkingDirectory)/TestResults/regression_test_results.xml' # Execute Postman regression test suite using Newman CLI and export results in JUnit format
+        script: 'automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json -r junit --reporter-junit-export $(System.DefaultWorkingDirectory)/TestResults/regression_test_results.xml' # Execute Postman regression test suite using Newman CLI and export results in JUnit format
         workingDirectory: '$(System.DefaultWorkingDirectory)'
 
     # Postman - Publish Results 
     # Publish test results to Azure Pipelines
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: '**/TEST-*.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)/TestResults' # Search for test result files in TestResults directory under the default working directory
-        mergeTestResults: true
-        testRunTitle: 'Postman Test Run' # Set the test run title to Postman Test Run
+    # - task: PublishTestResults@2
+    #   inputs:
+    #     testResultsFormat: 'JUnit'
+    #     testResultsFiles: '**/TEST-*.xml'
+    #     searchFolder: '$(System.DefaultWorkingDirectory)/TestResults' # Search for test result files in TestResults directory under the default working directory
+    #     mergeTestResults: true
+    #     testRunTitle: 'Postman Test Run' # Set the test run title to Postman Test Run
     

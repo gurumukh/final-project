@@ -96,7 +96,7 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: '**/TEST-*.xml'
+        testResultsFiles: '$(System.DefaultWorkingDirectory)/TestResults/validation_test_results.xml,$(System.DefaultWorkingDirectory)/TestResults/regression_test_results.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)/TestResults' # Search for test result files in TestResults directory under the default working directory
         mergeTestResults: true
         testRunTitle: 'Postman Test Run' # Set the test run title to Postman Test Run

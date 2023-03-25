@@ -96,6 +96,6 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        searchFolder: '$(System.DefaultWorkingDirectory)/log/postman_results' # Search for test result files in TestResults directory under the default working directory
+        searchFolder: 'log/postman_results' # Search for test result files in TestResults directory under the default working directory
         mergeTestResults: true
         testRunTitle: 'Postman Test Run' # Set the test run title to Postman Test Run

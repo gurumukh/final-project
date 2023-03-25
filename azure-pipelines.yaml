@@ -96,7 +96,7 @@ stages:
       displayName: Run Regression Tests
       continueOnError: true
       inputs:
-        script: 'automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json -r junit --reporter-junit-export $(System.DefaultWorkingDirectory)/TestResults/regression_test_results.xml' # Execute Postman regression test suite using Newman CLI and export results in JUnit format
+        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json -r junit --reporter-junit-export $(System.DefaultWorkingDirectory)/TestResults/regression_test_results.xml' # Execute Postman regression test suite using Newman CLI and export results in JUnit format
         workingDirectory: '$(System.DefaultWorkingDirectory)'
 
     # Postman - Publish Results 

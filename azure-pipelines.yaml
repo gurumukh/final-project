@@ -73,12 +73,14 @@ stages:
     #     environmentServiceNameAzureRM: '$(azureServiceConnectionId)' 
     # Postman - Install Newman    
 # Install Newman CLI tool
-    - task: CmdLine@2
-      displayName: Install Newman
+    - task: NodeTool@0
+      displayName: Install Node v12.X
       inputs:
-        script: 'npm install -g newman' # Install Newman globally using npm package manager
-        workingDirectory: $(System.DefaultWorkingDirectory)
-        
+        versionSpec: '12.x'
+    - bash: |
+        npm install -g newman
+        mkdir -p log/newman
+      displayName: Install Newman CLI
       # Postman Data Validation Test Suite    
       # Run Postman data validation test suite using Newman
     - task: CmdLine@2

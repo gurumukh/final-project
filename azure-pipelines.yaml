@@ -70,25 +70,33 @@ stages:
       inputs:
         versionSpec: '12.x'
     - bash: |
-        npm install -g newman
-        mkdir -p log/postman_results
+        sudo snap install postman
+        sudo npm install -g newman
+        sudo npm install newman-reporter-junitfull -g   
       displayName: Install Newman CLI
       # Postman Data Validation Test Suite    
       # Run Postman data validation test suite using Newman
-    - task: CmdLine@2
+    - task: Bash@3
       displayName: Run Data Validation Tests
       continueOnError: true
       inputs:
-        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json -r junit --reporter-junit-export log/postman_results/regression.xml'
+        workingDirectory: 'automatedtesting/postman'
+        targetType: 'inline'
+        script: |
+          #! /bin/bash
+          'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json -r cli,junitfull junit --reporter-junit-export regression.xml'
         
 
     # Postman Regression Test Suite    
     # Run Postman regression test suite using Newman
-    - task: CmdLine@2
+    - task: Bash@3
       displayName: Run Regression Tests
       continueOnError: true
       inputs:
-        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json  -r junit --reporter-junit-export log/postman_results/validation.xml'
+        targetType: 'inline'
+        script: |
+          #! /bin/bash
+          'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json  -r  cli,junitfull junit --reporter-junit-export validation.xml'
         
 
     # Postman - Publish Results 
@@ -96,6 +104,6 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        searchFolder: '$(System.DefaultWorkingDirectory)/log/postman_results' # Search for test result files in TestResults directory under the default working directory
-        mergeTestResults: true
-        testRunTitle: 'Postman Test Run' # Set the test run title to Postman Test Run
+        testResultsFiles: '**/JUnitReport*.xml'
+        testRunTitle: 'Publish test results'
+        searchFolder: 'automatedtesting/postman'

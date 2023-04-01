@@ -78,7 +78,8 @@ stages:
       displayName: Run Data Validation Tests
       continueOnError: true
       inputs:
-        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json -r junit --reporter-junit-export automatedtesting/postman/regression.xml'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+        script: 'newman run StarterAPIs.json -e postman_environment.json -r junit --reporter-junit-export regression.xml'
         
 
     # Postman Regression Test Suite    
@@ -87,7 +88,8 @@ stages:
       displayName: Run Regression Tests
       continueOnError: true
       inputs:
-        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json  -r junit --reporter-junit-export automatedtesting/postman/validation.xml'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+        script: 'newman run StarterAPIs.json -e postman_environment.json  -r junit --reporter-junit-export validation.xml'
         
 
     # Postman - Publish Results 
@@ -95,6 +97,6 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        searchFolder: 'automatedtesting/postman' # Search for test result files in TestResults directory under the default working directory
+        searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman' # Search for test result files in TestResults directory under the default working directory
         mergeTestResults: true
         testRunTitle: 'Postman Test Run' # Set the test run title to Postman Test Run

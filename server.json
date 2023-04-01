@@ -17,7 +17,7 @@
 		"image_sku": "18.04-LTS",
 		"managed_image_resource_group_name": "AzureDevops",
 		"managed_image_name": "UbuntuImage",
-		"location": "East US",
+		"location": "West Europe",
 		"vm_size": "Standard_DS2_v2",
 		"azure_tags": {
 			"environment": "udacity-test",

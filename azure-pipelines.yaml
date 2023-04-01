@@ -100,3 +100,22 @@ stages:
         testResultsFiles: '**/test-*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman/result' # Search for test result files in TestResults directory under the default working directory
         testRunTitle: 'Postman Test Run' # Set the test run title to Postman Test Run
+
+- stage: Deploy
+  jobs:
+  - deployment: DeployFakeRestAPI
+    displayName: 'Deploy app to custom VM'
+    pool:
+      vmImage: ubuntu-18.04
+    environment: 'TEST'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AzureWebApp@1
+              displayName: 'Deploy Azure Web App'
+              inputs:
+                azureSubscription: 'UdacityDS - 82'
+                appName: myApplication-AppService
+                appType: webApp
+                package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip

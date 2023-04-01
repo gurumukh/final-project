@@ -85,7 +85,7 @@ stages:
     # Postman Regression Test Suite    
     # Run Postman regression test suite using Newman
     - task: CmdLine@2
-      displayName: Run Regression Tests
+      displayName: Run Regression and validation Tests
       continueOnError: true
       inputs:
         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'

@@ -70,9 +70,7 @@ stages:
       inputs:
         versionSpec: '12.x'
     - bash: |
-        sudo snap install postman
-        sudo npm install -g newman
-        sudo npm install newman-reporter-junitfull -g   
+        npm install -g newman  
       displayName: Install Newman CLI
       # Postman Data Validation Test Suite    
       # Run Postman data validation test suite using Newman
@@ -80,7 +78,7 @@ stages:
       displayName: Run Data Validation Tests
       continueOnError: true
       inputs:
-        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json -r junit --reporter-junit-export log/postman_results/regression.xml'
+        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json -r junit --reporter-junit-export automatedtesting/postman/regression.xml'
         
 
     # Postman Regression Test Suite    
@@ -89,7 +87,7 @@ stages:
       displayName: Run Regression Tests
       continueOnError: true
       inputs:
-        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json  -r junit --reporter-junit-export log/postman_results/validation.xml'
+        script: 'newman run automatedtesting/postman/StarterAPIs.json -e automatedtesting/postman/postman_environment.json  -r junit --reporter-junit-export automatedtesting/postman/validation.xml'
         
 
     # Postman - Publish Results 
@@ -97,6 +95,6 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        searchFolder: 'automatedtesting/postman/log/postman_results' # Search for test result files in TestResults directory under the default working directory
+        searchFolder: 'automatedtesting/postman' # Search for test result files in TestResults directory under the default working directory
         mergeTestResults: true
         testRunTitle: 'Postman Test Run' # Set the test run title to Postman Test Run

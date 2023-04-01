@@ -107,7 +107,7 @@ stages:
     displayName: 'Deploy app to custom VM'
     pool:
       vmImage: ubuntu-18.04
-    environment: new-env
+    environment: 'new-env'
     strategy:
       runOnce:
         deploy:

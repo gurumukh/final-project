@@ -70,9 +70,7 @@ stages:
       inputs:
         versionSpec: '12.x'
     - bash: |
-        sudo snap install postman
-        sudo npm install -g newman
-        sudo npm install newman-reporter-junitfull -g   
+        npm install -g newman
       displayName: Install Newman CLI
       # Postman Data Validation Test Suite    
       # Run Postman data validation test suite using Newman

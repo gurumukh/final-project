@@ -109,8 +109,8 @@ stages:
         rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/fakerestapi'
         includeRootFolder: false
         archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/automatedtesting/jmeter/fakerestapi-$(Build.BuildId).zip'
-    - publish: $(Build.ArtifactStagingDirectory)/automatedtesting/jmeter/fakerestapi-$(Build.BuildId).zip
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
+    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip
       displayName: 'Upload Fakerestapi Package'
       artifact: drop-fakerestapi
 
@@ -133,4 +133,4 @@ stages:
                 azureSubscription: 'mySc'
                 appName: 'myApplication-AppService'
                 appType: webApp
-                package: $(Pipeline.Workspace)/automatedtesting/jmeter/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
+                package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip

@@ -8,7 +8,6 @@ trigger:
 
 # ToDo: Replace the agent pool name, if you are using Udacity Cloud lab. 
 # Otherwise comment out the line below. 
-pool: myAgenPool
 
 variables:
   python.version: '3.7.6'
@@ -23,6 +22,8 @@ stages:
 - stage: Build
   jobs:
   - job: BuildInfrastructure
+    pool:
+      name: myAgenPool
     steps:
     # Install Terraform on the pipeline agent 
     - task: TerraformInstaller@0
@@ -106,6 +107,7 @@ stages:
   - deployment: DeployFakeRestAPI
     displayName: 'Deploy app to custom VM'
     pool:
+      name: myAgenPool
       vmImage: ubuntu-18.04
       
     environment: 'new-env'

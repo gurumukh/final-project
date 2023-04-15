@@ -24,6 +24,7 @@ stages:
   - job: BuildInfrastructure
     pool:
       name: myAgenPool
+      vmImage: 'ubuntu-18.04'
     steps:
     # Install Terraform on the pipeline agent 
     - task: TerraformInstaller@0
@@ -101,6 +102,14 @@ stages:
         testResultsFiles: '**/test-*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman/result' # Search for test result files in TestResults directory under the default working directory
         testRunTitle: 'Postman Test Run' # Set the test run title to Postman Test Run
+
+    - task: ArchiveFiles@2
+      displayName: Archive FakeRestAPI
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)automatedtesting/jmeter/fakerestapi'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)automatedtesting/jmeter/fakerestapi-$(Build.BuildId).zip'
 
 - stage: Deploy
   jobs:

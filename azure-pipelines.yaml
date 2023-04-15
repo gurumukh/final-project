@@ -110,6 +110,9 @@ stages:
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/automatedtesting/jmeter/fakerestapi-$(Build.BuildId).zip'
+    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip
+      displayName: 'Upload Fakerestapi Package'
+      artifact: drop-fakerestapi
 
 - stage: Deploy
   jobs:
@@ -130,4 +133,4 @@ stages:
                 azureSubscription: 'mySc'
                 appName: 'myApplication-AppService'
                 appType: webApp
-                package: $(Build.ArtifactStagingDirectory)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
+                package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip

@@ -135,35 +135,43 @@ stages:
                 appType: webApp
                 package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
   
-  # - job: PerformanceEnduranceTesting
-  #   displayName: Run Endurance tests
-  #   steps:
-  #   - task: Bash@3
-  #     displayName: Execute JMeter Endurance tests
-  #     inputs:
-  #       targetType: filePath
-  #       filePath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/test.sh'
-  #       arguments: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter Endurance.jmx $(host)'
-  #       workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter'
-  #       failOnStderr: false
-  #   - task: PublishPipelineArtifact@1
-  #     displayName: Publish JMeter Report
-  #     inputs:
-  #       targetPath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/report'
-  #       artifact: 'Jmeter Endurance Test Report'
-  # - job: PerformanceStressTesting
-  #   displayName: Run Stress tests
-  #   steps:
-  #   - task: Bash@3
-  #     displayName: Execute JMeter Stress tests
-  #     inputs:
-  #       targetType: filePath
-  #       filePath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/test.sh'
-  #       arguments: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter Stress.jmx $(host)'
-  #       workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter'
-  #       failOnStderr: false
-  #   - task: PublishPipelineArtifact@1
-  #     displayName: Publish JMeter Report
-  #     inputs:
-  #       targetPath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/report'
-  #       artifact: 'Jmeter Stress Test Report'
+
+          #--------------------------------------------#    
+          # Run JMeter test suite against the App Service
+          # ToDo: Update the script below to install jmeter, unzip the jmeter test suite published zip artifact, and run the PerformanceTestSuite.  
+          # ToDo: Generate the log file. 
+            - task: CmdLine@2
+              inputs:
+                script: |
+                  # Install JMeter
+                  sudo apt-get update
+                  sudo apt-get install -y jmeter
+
+                  # Unzip the JMeter test suite published zip artifact
+                  unzip $(Pipeline.Workspace)/jmeter/faketestapi.zip -d $(Pipeline.Workspace)/jmeter
+
+                  # Run the Performance Test Suite with 2 users
+                  jmeter -n -t $(Pipeline.Workspace)/jmeter/starter.jmx -JAPPSERVICEURL=udacityapp-appservice.azurewebsites.net -JUSERS=2 -l $(Pipeline.Workspace)/jmeter/PerformanceTestSuite.jtl -e -o $(Pipeline.Workspace)/jmeter/PerformanceTestSuite
+                  
+                  # Generate the HTML report for Performance Test Suite
+                  cd $(Pipeline.Workspace)/jmeter/PerformanceTestSuite
+                  zip -r performance-report.zip *
+                  PublishPipelineArtifact -artifactName 'PerformanceTestSuiteHTMLReport' -path $(Pipeline.Workspace)/jmeter/PerformanceTestSuite/performance-report.zip
+
+                  # Run the Stress Test Suite with 10 users for 30 seconds
+                  jmeter -n -t $(Pipeline.Workspace)/jmeter/stress.jmx -JAPPSERVICEURL=udacityapp-appservice.azurewebsites.net -JUSERS=10 -JDuration=30 -l $(Pipeline.Workspace)/jmeter/StressTestSuite.jtl -e -o $(Pipeline.Workspace)/jmeter/StressTestSuite
+                  
+                  # Generate the HTML report for Stress Test Suite
+                  cd $(Pipeline.Workspace)/jmeter/StressTestSuite
+                  zip -r stress-report.zip *
+                  PublishPipelineArtifact -artifactName 'StressTestSuiteHTMLReport' -path $(Pipeline.Workspace)/jmeter/StressTestSuite/stress-report.zip
+
+                  # Run the Endurance Test Suite with 2 users for 10 minutes
+                  jmeter -n -t $(Pipeline.Workspace)/jmeter/endurance.jmx -JAPPSERVICEURL=udacityapp-appservice.azurewebsites.net -JUSERS=2 -JDuration=600 -l $(Pipeline.Workspace)/jmeter/EnduranceTestSuite.jtl -e -o $(Pipeline.Workspace)/jmeter/EnduranceTestSuite
+                  
+                  # Generate the HTML report for Endurance Test Suite
+                  cd $(Pipeline.Workspace)/jmeter/EnduranceTestSuite
+                  zip -r endurance-report.zip *
+                  PublishPipelineArtifact -artifactName 'EnduranceTestSuiteHTMLReport' -path $(Pipeline.Workspace)/jmeter/EnduranceTestSuite/endurance-report.zip
+
+                workingDirectory: $(Pipeline.Workspace)

@@ -20,7 +20,7 @@ variable "resource_group" {
     default = "Azuredevops"
 }
 variable "application_type" {
-    default = "myApplication"
+    default = "udacity-demo"
 }
 
 # Network

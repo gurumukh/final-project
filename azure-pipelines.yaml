@@ -136,10 +136,6 @@ stages:
                 package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
   
 
-          #--------------------------------------------#    
-          # Run JMeter test suite against the App Service
-          # ToDo: Update the script below to install jmeter, unzip the jmeter test suite published zip artifact, and run the PerformanceTestSuite.  
-          # ToDo: Generate the log file. 
             - task: JMeterInstaller@0
               inputs:
                 jmeterVersion: '5.2.1'
@@ -153,8 +149,60 @@ stages:
               inputs:
                 targetType: 'inline'
                 script: 'jmeter -n -t automatedtesting/jmeter/StressTestSuite.jmx -Jresdir=automatedtesting/jmeter/stresspages.csv -l automatedtesting/jmeter/report/stressresults.jtl -e -o automatedtesting/jmeter/stressreport'
-            - task: PublishBuildArtifacts@1
+            - task: PublishPipelineArtifact@1
+              displayName: Publish JMeter Report
               inputs:
-                PathtoPublish: 'automatedtesting/jmeter'
-                ArtifactName: 'jmeter'
-                publishLocation: 'Container'
+                targetPath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/report'
+                artifact: 'Jmeter Stress Test Report'
+  #--------------------------------------------#  
+  # Selenium | Functional UI Tests
+  # ToDo: 
+  - deployment: VMDeploy
+    displayName: Selenium Tests
+    pool:
+      name: myAgentPool
+      vmImage: ubuntu-18.04
+    environment:
+      name: "new-env" 
+      resourceType: VirtualMachine
+      tags: selenium
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: selenium     # ToDo: Change/provide a name
+            
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |           
+                # ToDo: Install Selenium, Chromium-browser & Chromedriver, if not already in the custom VM image. 
+                #! /bin/bash
+                
+                sudo apt-get upgrade -y
+                sudo apt-get install python3-pip -y
+                sudo apt-get install unzip -y
+                sudo apt-get install -y chromium-browser
+                pip3 install selenium
+                
+                #  ToDo: Add chromedriver executable to path
+                FILE=chromedriver_linux64.zip
+                if [ -f "$FILE" ]; then
+                  echo "$FILE exists."
+                else
+                  wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
+                fi
+                # install chrome driver
+                unzip chromedriver_linux64.zip
+                sudo mv chromedriver /usr/bin/chromedriver
+                sudo chown root:root /usr/bin/chromedriver
+                sudo chmod +x /usr/bin/chromedriver
+                chromium-browser -version
+                chromedriver --version
+                # agent log analytics
+                wget https://raw.githubusercontent.com/Microsoft/OMS-Agent-for-Linux/master/installer/scripts/onboard_agent.sh && sh onboard_agent.sh -w dbf2bd83-6d47-436b-a499-a2b566def8fe -s MuSR8Ti5MMi0E+9+1NM4NxCxFqJcfLzuGD0EtGhjXo3Vhy/THcSdCf1WyQnkXafD+6DiFjiOAEfJiQh6EbZVeg== -d opinsights.azure.com     
+                
+                # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
+                # ToDo: Direct the output of the Selenium Test Suite to a log file
+                

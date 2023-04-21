@@ -138,7 +138,7 @@ stages:
               inputs:
                 targetType: 'inline'
                 script: 'jmeter -n -t automatedtesting/jmeter/StressTestSuite.jmx -Jresdir=automatedtesting/jmeter/stresspages.csv -l automatedtesting/jmeter/report/stressresults.jtl -e -o automatedtesting/jmeter/stressreport'
-            - task: PublishPipelineArtifact@1
+            - task: PublishBuildArtifacts@1
               displayName: Publish JMeter Report
               inputs:
                 targetPath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/report'

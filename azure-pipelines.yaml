@@ -142,7 +142,7 @@ stages:
           # ToDo: Generate the log file. 
             - task: JMeterInstaller@0
               inputs:
-                jmeterVersion: 'latest'
+                jmeterVersion: '5.2.1'
             - task: Bash@3
               displayName: EnduranceTest
               inputs:

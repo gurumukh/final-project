@@ -23,7 +23,7 @@ stages:
   jobs:
   - job: BuildInfrastructure
     pool:
-      name: myAgenPool
+      name: myAgentPool
       vmImage: 'ubuntu-18.04'
     steps:
     # Install Terraform on the pipeline agent 
@@ -42,7 +42,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: '$(azureServiceConnectionId)'
         backendAzureRmResourceGroupName: 'Azuredevops'
-        backendAzureRmStorageAccountName: 'tfstate2467224572'
+        backendAzureRmStorageAccountName: 'tfstate2470922725'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
@@ -119,7 +119,7 @@ stages:
   - deployment: DeployFakeRestAPI
     displayName: 'Deploy app to custom VM'
     pool:
-      name: myAgenPool
+      name: myAgentPool
       vmImage: ubuntu-18.04
       
     environment: 'new-env'
@@ -134,3 +134,36 @@ stages:
                 appName: 'myApplication-AppService'
                 appType: webApp
                 package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
+  
+  # - job: PerformanceEnduranceTesting
+  #   displayName: Run Endurance tests
+  #   steps:
+  #   - task: Bash@3
+  #     displayName: Execute JMeter Endurance tests
+  #     inputs:
+  #       targetType: filePath
+  #       filePath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/test.sh'
+  #       arguments: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter Endurance.jmx $(host)'
+  #       workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter'
+  #       failOnStderr: false
+  #   - task: PublishPipelineArtifact@1
+  #     displayName: Publish JMeter Report
+  #     inputs:
+  #       targetPath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/report'
+  #       artifact: 'Jmeter Endurance Test Report'
+  # - job: PerformanceStressTesting
+  #   displayName: Run Stress tests
+  #   steps:
+  #   - task: Bash@3
+  #     displayName: Execute JMeter Stress tests
+  #     inputs:
+  #       targetType: filePath
+  #       filePath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/test.sh'
+  #       arguments: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter Stress.jmx $(host)'
+  #       workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter'
+  #       failOnStderr: false
+  #   - task: PublishPipelineArtifact@1
+  #     displayName: Publish JMeter Report
+  #     inputs:
+  #       targetPath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/report'
+  #       artifact: 'Jmeter Stress Test Report'

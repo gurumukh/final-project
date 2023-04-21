@@ -137,7 +137,7 @@ stages:
               displayName: StressTest
               inputs:
                 targetType: 'inline'
-                script: 'jmeter -n -t automatedtesting/jmeter/StressTestSuite.jmx -Jresdir=automatedtesting/jmeter/stresspages.csv -l automatedtesting/jmeter/report/stressresults.jtl -e -o automatedtesting/jmeter/stressreport'
+                script: 'jmeter -n -t automatedtesting/jmeter/stress.jmx -Jresdir=automatedtesting/jmeter/stresspages.csv -l automatedtesting/jmeter/report/stressresults.jtl -e -o automatedtesting/jmeter/stressreport'
             - task: PublishBuildArtifacts@1
               displayName: Publish JMeter Report
               inputs:
@@ -154,7 +154,7 @@ stages:
     environment:
       name: "new-env" 
       resourceType: VirtualMachine
-      tags: selenium
+      tags: web
     strategy:
       runOnce:
         deploy:

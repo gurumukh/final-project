@@ -4,6 +4,9 @@ resource "azurerm_service_plan" "test" {
   resource_group_name = "${var.resource_group}"
   os_type             = "Windows"
   sku_name            = "F1"
+  tags = {
+    category = "web"
+  }
 }
 
 resource "azurerm_windows_web_app" "test" {

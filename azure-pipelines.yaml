@@ -109,7 +109,7 @@ stages:
 
 - stage: Test
   jobs:
-  - job: Postman Test
+  - job: Postman_Test
     pool:
       name: myAgentPool
       vmImage: 'ubuntu-18.04'
@@ -139,7 +139,7 @@ stages:
         testRunTitle: 'Postman Test Run'
 
   
-  - job: Endurance and Stres Test
+  - job: Performance_Test
     pool:
       name: myAgentPool
       vmImage: 'ubuntu-18.04'

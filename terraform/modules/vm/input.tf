@@ -1,12 +1,12 @@
 # Azure GUIDS
 variable "subscription_id" {
-    default = "99c360d5-5a1d-45b7-93ae-80a16feaccb7"
+    default = "0fadec41-9b39-430f-aa5d-ce7b49f9346c"
 }
 variable "client_id" {
-    default = "c888e5ec-e941-4b36-a6e5-05ac7138c25a"
+    default = "b8899838-a0f9-4a12-a7dc-8e64d7735ae9"
 }
 variable "client_secret" {
-    default = "jkp8Q~myp3qtIGggr3vgiBeB8GLl1_A3OSyTOcwm"
+    default = "22f8Q~e2WpgVrZm0LU1SVxJny7nSnhj8UcFF~cnc"
 }
 variable "tenant_id" {
     default = "f958e84a-92b8-439f-a62d-4f45996b6d07"

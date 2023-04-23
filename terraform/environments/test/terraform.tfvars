@@ -1,6 +1,6 @@
-subscription_id = "99c360d5-5a1d-45b7-93ae-80a16feaccb7"
-client_id = "c888e5ec-e941-4b36-a6e5-05ac7138c25a"
-client_secret = "jkp8Q~myp3qtIGggr3vgiBeB8GLl1_A3OSyTOcwm"
+subscription_id = "0fadec41-9b39-430f-aa5d-ce7b49f9346c"
+client_id = "b8899838-a0f9-4a12-a7dc-8e64d7735ae9"
+client_secret = "22f8Q~e2WpgVrZm0LU1SVxJny7nSnhj8UcFF~cnc"
 tenant_id = "f958e84a-92b8-439f-a62d-4f45996b6d07"
 
 # Resource Group/Location

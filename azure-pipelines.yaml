@@ -52,13 +52,6 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'validate'
-
-    - task: TerraformTaskV3@3
-      inputs:
-        command: 'force-unlock'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-        commandOptions: 'aac527f0-d8ae-f83c-ad66-470955a84b42'
-        environmentServiceNameAzureRM: 'mySc'
     # Run Terraform Apply
     # ToDo: Change the workingDirectory path, as applicable to you
     - task: TerraformTaskV3@3

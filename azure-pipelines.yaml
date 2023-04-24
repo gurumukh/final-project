@@ -98,6 +98,7 @@ stages:
           steps:
             - task: AzureWebApp@1
               displayName: 'Deploy Azure Web App'
+              tags: web
               inputs:
                 azureSubscription: 'mySc'
                 appName: 'udacityapp-Appservice'

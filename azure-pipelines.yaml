@@ -187,7 +187,7 @@ stages:
         script: |
           ls -lah endurance-test-report/
           ls -lah stress-test-report/
-          cat jmeter.log
+          cat jmeter.log 
 
 
 

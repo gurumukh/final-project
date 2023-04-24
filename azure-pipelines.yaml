@@ -189,5 +189,30 @@ stages:
           ls -lah stress-test-report/
           cat jmeter.log 
 
+  - deployment: Functional
+    displayName: 'Functional UI Tests'
+    environment:
+      name:  'new-env'
+      resourceType: VirtualMachine
+      tags: web
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: selenium-ui-test
+
+          - task: Bash@3
+
+            displayName: 'Selenium Tests'
+            inputs:
+              targetType: 'inline'
+              script: |
+                #! /bin/bash
+                echo 'Already installed Selenium, Chromium-browser & Chromedriver!'
+                unzip -o $(Pipeline.Workspace)/selenium/selenium-tests.zip -d .
+                python3 login.py > selenium.log
+                cat selenium.log
+
 
 

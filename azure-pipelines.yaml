@@ -210,7 +210,7 @@ stages:
               script: |
                 #! /bin/bash
                 echo 'Already installed Selenium, Chromium-browser & Chromedriver!'
-                unzip -o $(Pipeline.Workspace)/selenium/selenium-ui-test.zip -d .
+                unzip -o $(Pipeline.Workspace)/selenium-ui-test.zip -d .
                 cd selenium-ui-test
                 python3 login.py > selenium.log
                 cat selenium.log

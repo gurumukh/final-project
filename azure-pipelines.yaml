@@ -148,20 +148,46 @@ stages:
       inputs:
         jmeterVersion: '5.2.1'
     - task: Bash@3
-      displayName: EnduranceTest
+      displayName: 'Endurance Test Suite'
       inputs:
         targetType: 'inline'
-        script: 'jmeter -n -t automatedtesting/jmeter/endurance.jmx -Jresdir=automatedtesting/jmeter/endurancepages.csv -l automatedtesting/jmeter/report/enduranceresults.jtl -e -o automatedtesting/jmeter/endurancereport'
+        script: |
+          jmeter -n \
+            -t automatedtesting/jmeter/endurance.jmx \
+            -l endurance-test-report/endurance-results.jtl \
+            -e \
+            -o endurance-test-report
+    - task: publishhtmlreport@1
+      displayName: 'Publish Endurance Test Results'
+      inputs:
+        htmlType: 'Jmeter'
+        JmeterReportsPath: '$(Build.SourcesDirectory)/endurance-test-report'    
+
     - task: Bash@3
-      displayName: StressTest
+      displayName: 'Stress Test Suite'
       inputs:
         targetType: 'inline'
-        script: 'jmeter -n -t automatedtesting/jmeter/stress.jmx -Jresdir=automatedtesting/jmeter/stresspages.csv -l automatedtesting/jmeter/report/stressresults.jtl -e -o automatedtesting/jmeter/stressreport'
-    - task: PublishBuildArtifacts@1
-      displayName: Publish JMeter Report
+        script: |
+          jmeter -n \
+            -t automatedtesting/jmeter/stress.jmx \
+            -l stress-test-report/stress-results.jtl \
+            -e \
+            -o stress-test-report
+    - task: publishhtmlreport@1
+      displayName: 'Publish Stress Test Results'
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/report'
-        artifact: 'Jmeter Stress Test Report'
+        htmlType: 'Jmeter'
+        JmeterReportsPath: '$(Build.SourcesDirectory)/stress-test-report'    
         
+        
+    - task: Bash@3
+      displayName: 'Print Performance Test Logs'
+      inputs:
+        targetType: 'inline'
+        script: |
+          ls -lah endurance-test-report/
+          ls -lah stress-test-report/
+          cat jmeter.log
+
 
 

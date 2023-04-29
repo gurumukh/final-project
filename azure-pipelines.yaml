@@ -213,8 +213,7 @@ stages:
                 unzip -o $(Pipeline.Workspace)/selenium-ui-test/selenium-tests.zip -d .
                 cd selenium-ui-test
                 python3 login.py > selenium.log
-                cat selenium.log 
-                 
+                cat selenium.log  
 
 
 

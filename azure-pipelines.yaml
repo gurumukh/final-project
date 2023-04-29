@@ -215,6 +215,7 @@ stages:
                 python3 login.py > selenium.log
                 cat selenium.log  
                 
+                
 
 
 

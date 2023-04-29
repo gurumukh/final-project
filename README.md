@@ -9,5 +9,5 @@ There are three stages in az piplines
 3. Test
 
 ## Build
-
-(./ss/terraform-init.png)
+* Terraform init
+[terraform-init](https://imgur.com/a/jHeGVDT)

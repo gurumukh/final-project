@@ -1,22 +1,20 @@
 # #!/usr/bin/env python
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-
-
-d = webdriver.Chrome(chrome_options=chrome_options)
 import time
+from selenium.webdriver.chrome.options import Options
 
 
 # Start the browser and login with standard_user
 def login(user, password):
     print("Starting the browser...")
     # --uncomment when running in Azure DevOps.
-    chrome_options = Options()
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--headless")
+    options = Options()
+    options.add_argument("--no-sandbox")
+    options.add_argument("--headless")
 
-    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(chrome_options=options)
     print("Browser started successfully. Navigating to the demo page to login.")
     driver.get("https://www.saucedemo.com/")
 

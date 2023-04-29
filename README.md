@@ -10,4 +10,4 @@ There are three stages in az piplines
 
 ## Build
 * Terraform init
-![terraform-init](https://imgur.com/a/jHeGVDT)
+![terraform-init](./ss/terraform-init.png)

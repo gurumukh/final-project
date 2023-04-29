@@ -12,8 +12,6 @@ def login(user, password):
     options = Options()
     options.add_argument("--no-sandbox")
     options.add_argument("--headless")
-
-    driver = webdriver.Chrome()
     driver = webdriver.Chrome(chrome_options=options)
     print("Browser started successfully. Navigating to the demo page to login.")
     driver.get("https://www.saucedemo.com/")
